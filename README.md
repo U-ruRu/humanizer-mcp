@@ -1,6 +1,12 @@
 # humanizer-mcp
 
-`humanizer-mcp` exposes the existing Humanizer RU skill as a narrow MCP service. The server performs deterministic analysis and returns the authoritative editing instructions to the calling language model. The language model remains responsible for the actual rewrite.
+`humanizer-mcp` is an independent MCP adapter for the third-party [Humanizer RU](https://github.com/ilyautov/humanizer-ru) project. It performs deterministic analysis and returns Humanizer RU editing instructions to the calling language model; the language model remains responsible for the actual rewrite.
+
+## Upstream and credit
+
+Humanizer RU is created and maintained by [Ilya Utov](https://github.com/ilyautov) / [AI Frontier](https://aifrontier.tech/). The upstream project is available at [github.com/ilyautov/humanizer-ru](https://github.com/ilyautov/humanizer-ru) and is distributed under the MIT License. Its live scanner demo is available at [humanizer-ru.aifrontier.tech](https://humanizer-ru.aifrontier.tech/).
+
+This repository is not the Humanizer RU project and does not claim authorship of the skill, its rules, scanner, research, or evaluation work. `humanizer-mcp` only provides an MCP-facing integration layer around a separately installed Humanizer RU runtime. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## MCP tools
 
