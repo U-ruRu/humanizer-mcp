@@ -1,0 +1,27 @@
+[Unit]
+Description=Humanizer RU MCP
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=humanizer-mcp
+Group=humanizer-mcp
+SupplementaryGroups=humanizer-readers
+WorkingDirectory=/opt/humanizer-mcp/current
+Environment=PYTHONDONTWRITEBYTECODE=1
+EnvironmentFile=/etc/humanizer-mcp/humanizer-mcp.env
+ExecStart=/opt/humanizer-mcp/current/.venv/bin/humanizer-mcp
+Restart=always
+RestartSec=3
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/humanizer-ru /opt/humanizer-mcp
+ReadWritePaths=/var/lib/humanizer-mcp
+CapabilityBoundingSet=
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
