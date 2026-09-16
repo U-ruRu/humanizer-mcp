@@ -33,6 +33,8 @@ def hash_password(value: str) -> str:
 def verify_password(value: str, encoded: str) -> bool:
     if not value or not encoded:
         return False
+    if not encoded.startswith(f"{_PREFIX}$"):
+        return hmac.compare_digest(value, encoded)
     try:
         prefix, raw_n, raw_r, raw_p, raw_salt, raw_digest = encoded.split("$", 5)
         if prefix != _PREFIX:
