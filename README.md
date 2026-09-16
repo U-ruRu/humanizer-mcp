@@ -8,6 +8,10 @@ Humanizer RU is created and maintained by [Ilya Utov](https://github.com/ilyauto
 
 This repository is not the Humanizer RU project and does not claim authorship of the skill, its rules, scanner, research, or evaluation work. `humanizer-mcp` only provides an MCP-facing integration layer around a separately installed Humanizer RU runtime. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
+## Project lineage
+
+The MCP transport, OAuth flow, service layout, deployment pattern, and operational approach used here are based on [U-ruRu/terminal-mcp](https://github.com/U-ruRu/terminal-mcp), the author's existing Terminal MCP project. `humanizer-mcp` reuses that project's architectural patterns while replacing terminal execution with a narrow Humanizer-specific domain surface.
+
 ## MCP tools
 
 - `health` — end-to-end readiness: service, `SKILL.md`, `edit-log.md`, scanner, Python dependencies, scanner smoke test.
