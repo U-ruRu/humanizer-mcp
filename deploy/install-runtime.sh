@@ -18,7 +18,8 @@ install -d -m 0755 /opt/humanizer-mcp/releases
 install -d -m 0700 -o humanizer-mcp -g humanizer-mcp /var/lib/humanizer-mcp
 install -d -m 0750 -o root -g humanizer-mcp /etc/humanizer-mcp
 install -d -m 0755 "$TARGET"
-rsync -a --delete --exclude .git --exclude .venv "$SOURCE_DIR/" "$TARGET/"
+cp -a "$SOURCE_DIR/." "$TARGET/"
+rm -rf "$TARGET/.git" "$TARGET/.venv"
 python3 -m venv "$TARGET/.venv"
 "$TARGET/.venv/bin/pip" install -q "$TARGET"
 chown -R root:root "$TARGET"
