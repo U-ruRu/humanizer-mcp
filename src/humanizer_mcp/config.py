@@ -24,9 +24,11 @@ class Settings(BaseSettings):
     oauth_audience: str = ""
     oauth_jwks_url: str = ""
     oauth_signing_secret: str = "change-me"
+    oauth_signing_secret_file: Path | None = None
     oauth_required_scopes: str = "humanizer:use"
     oauth_admin_username: str = "admin"
     oauth_admin_password: str = "change-me"
+    oauth_admin_password_file: Path | None = None
     oauth_access_ttl_sec: int = 900
     oauth_refresh_ttl_sec: int = 2_592_000
     oauth_code_ttl_sec: int = 300
@@ -35,6 +37,18 @@ class Settings(BaseSettings):
         if interface == "mcp" and self.mcp_auth_mode:
             return self.mcp_auth_mode
         return self.auth_mode
+
+    @staticmethod
+    def _secret_value(value: str, path: Path | None) -> str:
+        if path is None:
+            return value
+        return path.read_text(encoding="utf-8").strip()
+
+    def oauth_signing_secret_value(self) -> str:
+        return self._secret_value(self.oauth_signing_secret, self.oauth_signing_secret_file)
+
+    def oauth_admin_password_value(self) -> str:
+        return self._secret_value(self.oauth_admin_password, self.oauth_admin_password_file)
 
     @staticmethod
     def parse_json_list(value: str) -> list[dict]:

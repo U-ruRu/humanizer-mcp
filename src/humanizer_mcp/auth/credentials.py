@@ -28,7 +28,7 @@ class CredentialManager:
         if not users:
             return hmac.compare_digest(
                 username, self.settings.oauth_admin_username
-            ) and hmac.compare_digest(password, self.settings.oauth_admin_password)
+            ) and hmac.compare_digest(password, self.settings.oauth_admin_password_value())
         return any(
             self._active(item)
             and hmac.compare_digest(username, item.get("username", ""))

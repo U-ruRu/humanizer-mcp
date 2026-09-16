@@ -30,7 +30,7 @@ class AuthService:
         if self.credentials:
             return self.credentials.oauth_user_valid(username, password)
         return hmac.compare_digest(username, self.s.oauth_admin_username) and hmac.compare_digest(
-            password, self.s.oauth_admin_password
+            password, self.s.oauth_admin_password_value()
         )
 
     def issue_access(self, cid, scope):
@@ -45,7 +45,7 @@ class AuthService:
                 "exp": now + self.s.oauth_access_ttl_sec,
                 "scope": scope,
             },
-            self.s.oauth_signing_secret,
+            self.s.oauth_signing_secret_value(),
             algorithm="HS256",
         )
 
@@ -62,7 +62,7 @@ class AuthService:
         else:
             claims = jwt.decode(
                 token,
-                self.s.oauth_signing_secret,
+                self.s.oauth_signing_secret_value(),
                 algorithms=["HS256"],
                 audience=self.s.oauth_audience or f"{self.s.public_base_url}/mcp",
                 issuer=self.s.oauth_issuer or self.s.public_base_url,
