@@ -1,6 +1,8 @@
 import hmac
 from datetime import UTC, datetime
 
+from humanizer_mcp.auth.passwords import verify_password
+
 
 class CredentialManager:
     def __init__(self, settings):
@@ -26,12 +28,12 @@ class CredentialManager:
     def oauth_user_valid(self, username: str, password: str) -> bool:
         users = self.settings.parse_json_list(self.settings.oauth_users_json)
         if not users:
-            return hmac.compare_digest(
-                username, self.settings.oauth_admin_username
-            ) and hmac.compare_digest(password, self.settings.oauth_admin_password_value())
+            if not hmac.compare_digest(username, self.settings.oauth_admin_username):
+                return False
+            return verify_password(password, self.settings.oauth_admin_password_value())
         return any(
             self._active(item)
             and hmac.compare_digest(username, item.get("username", ""))
-            and hmac.compare_digest(password, item.get("password", ""))
+            and verify_password(password, item.get("password_hash") or item.get("password", ""))
             for item in users
         )

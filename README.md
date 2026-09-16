@@ -55,3 +55,11 @@ Text size is capped by `HUMANIZER_MCP_MAX_TEXT_CHARS`. The MCP has no terminal s
 `/opt/humanizer-ru` can remain owned by `root`. Deployment creates the `humanizer-readers` group, adds the `humanizer-mcp` service account to it, grants group read/execute access to the Humanizer tree, and sets the setgid bit on its directories so newly created files inherit the reader group. The systemd service mounts the Humanizer and release trees read-only and gives the process write access only to `/var/lib/humanizer-mcp`.
 
 The default production service uses OAuth. A loopback-only smoke deployment may temporarily set `HUMANIZER_MCP_AUTH_MODE=none`; public exposure requires OAuth or another configured authentication mode.
+
+## Credential storage
+
+OAuth user credentials are verified against salted `scrypt` password verifiers. Production stores only the verifier in the configured credential file; the original password is not required at rest. The verifier format includes the KDF parameters and random salt so verification remains self-contained.
+
+## MCP safety metadata
+
+All exposed MCP tools are read-only from the connected client's perspective. Tool annotations declare `readOnlyHint=true`, `destructiveHint=false`, `idempotentHint=true`, and `openWorldHint=false`. The tools analyze supplied text and local Humanizer rules; they do not mutate application data, invoke shell commands, or perform external side effects.
